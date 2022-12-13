@@ -33,11 +33,11 @@
 - 아래의 내용을 담은 테이블을 구성했습니다.
 
 
-- __user_group_info__ : 특정 그룹 별 관리 테이블입니다. ( ex, 일반 사용자와 관리자 등 )
-- __user_list__ : 실제 사용자 list입니다.
-- __point_summary__ : 사용자 별 적립금 현황 테이블입니다. 적립금 변경 이벤트 이후 point_event_detail 테이블을 기준으로 지속적으로 update하며 관리합니다.
-- __point_event__ : 적립금 변경이 발생한 내역을 저장하는 테이블입니다.
-- __point_event_detail__ : 선입 선출을 위한 적립금 변경의 세부 내역을 관리합니다.
+   - __user_group_info__ : 특정 그룹 별 관리 테이블입니다. ( ex, 일반 사용자와 관리자 등 )
+   - __user_list__ : 실제 사용자 list입니다.
+   - __point_summary__ : 사용자 별 적립금 현황 테이블입니다. 적립금 변경 이벤트 이후 point_event_detail 테이블을 기준으로 지속적으로 update하며 관리합니다.
+   - __point_event__ : 적립금 변경이 발생한 내역을 저장하는 테이블입니다.
+   - __point_event_detail__ : 선입 선출을 위한 적립금 변경의 세부 내역을 관리합니다.
 
 <br/>
 <br/>
