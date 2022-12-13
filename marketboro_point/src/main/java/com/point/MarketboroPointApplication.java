@@ -9,7 +9,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 public class MarketboroPointApplication extends SpringBootServletInitializer {
 
 	
-	
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
 		return builder.sources(MarketboroPointApplication.class);

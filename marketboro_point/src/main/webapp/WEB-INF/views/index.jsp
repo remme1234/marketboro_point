@@ -100,7 +100,7 @@
 	                         	<a href="#" onclick="doJobPointEvent('save');" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="margin-left: 10px;">
 									<span class="text">적립금 추가</span>
 	                            </a>
-	                            <a href="#" onclick="doJobPointEvent('use');" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="margin-left: 10px;margin-right: 80%;"">
+	                            <a href="#" onclick="doJobPointEvent('use');" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="margin-left: 10px;margin-right: 60%;"">
 	                                <span class="text">적립금 사용</span>
 	                            </a>
 	                            
