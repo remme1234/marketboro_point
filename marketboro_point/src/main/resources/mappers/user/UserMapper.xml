@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.point.mapper.UserMapper">
+
+	<select id= "selectUserList" parameterType="com.point.domain.UserListDTO" resultType="map">
+		<![CDATA[
+		SELECT IDX
+			 , GROUP_IDX
+			 , USER_ID
+			 , PASSWARD
+			 , USER_NAME
+			 , EMAIL
+			 , ADDRESS
+			 , PHONE
+			 , CREATE_DTTM
+			 , UPDATE_DTTM
+		FROM USER_LIST
+		WHERE 1=1
+		]]>
+		<if test="idx != null">
+		AND IDX = #{idx}
+		</if>		
+	</select>
+
+</mapper>

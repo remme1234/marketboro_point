@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.point.mapper.PointMapper">
+
+	<select id= "selectPointSummary" parameterType="com.point.domain.PointSummaryDTO" resultType="map">
+		<![CDATA[
+			SELECT IDX
+				 , USER_IDX
+				 , NOW_POINT
+				 , OPTIONS
+				 , CREATE_DTTM
+				 , UPDATE_DTTM
+			FROM POINT_SUMMARY
+			WHERE 1=1
+		]]>
+		<if test="userIdx != null">
+			AND USER_IDX = #{userIdx}
+		</if>
+			ORDER BY IDX, USER_IDX, UPDATE_DTTM
+	</select>
+
+	<select id= "selectPointEvent" parameterType="com.point.domain.PointEventDTO" resultType="map">
+		<![CDATA[
+			SELECT IDX
+				 , USER_IDX
+				 , STATUS
+				 , POINT
+				 , OPTIONS
+				 , CREATE_DTTM
+				 , UPDATE_DTTM
+				 , EXPIRATION_DTTM
+			FROM POINT_EVENT
+			WHERE 1=1
+		]]>
+		<if test="userIdx != null">
+			AND USER_IDX = #{userIdx}
+		</if>
+			ORDER BY IDX, USER_IDX, CREATE_DTTM
+	</select>
+
+	<insert id= "insertUsePointEvent" parameterType= "com.point.domain.PointEventDTO">
+		INSERT INTO POINT_EVENT (
+			USER_IDX
+			, STATUS
+			, POINT
+			, OPTIONS
+			, CREATE_DTTM
+			, UPDATE_DTTM
+			, EXPIRATION_DTTM
+		) VALUES (
+			#{userIdx}
+			, #{status}
+			, #{point}
+			, #{options}
+			, #{createDttm}
+			, #{updateDttm}
+			, #{expirationDttm}
+		)
+	</insert>
+
+
+	<select id= "selectLastPointEvent" parameterType="com.point.domain.PointEventDTO" resultType="com.point.domain.PointEventDTO">
+		<![CDATA[
+			SELECT IDX
+				 , USER_IDX
+				 , STATUS
+				 , POINT
+				 , OPTIONS
+				 , CREATE_DTTM
+				 , UPDATE_DTTM
+				 , EXPIRATION_DTTM
+			FROM POINT_EVENT
+			WHERE 1=1
+		]]>
+			AND USER_IDX = #{userIdx}
+			ORDER BY CREATE_DTTM DESC
+			LIMIT 1
+	</select>
+
+	<select id= "selectGroupBySumDetail" parameterType="com.point.domain.PointEventDTO" resultType="map">
+		SELECT ORIGIN_EVENT_DETAIL_IDX 
+			 , sum(point) AS SUM_VALUE 
+		FROM POINT_EVENT_DETAIL
+		WHERE USER_IDX = #{userIdx}
+		GROUP BY ORIGIN_EVENT_DETAIL_IDX
+		HAVING sum(point) > 0
+	</select>
+
+
+	<insert id= "insertPointEventDetail" parameterType= "com.point.domain.PointEventDetailDTO">
+		INSERT INTO POINT_EVENT_DETAIL (
+			USER_IDX
+			, EVENT_IDX
+			, ORIGIN_EVENT_DETAIL_IDX
+			, STATUS
+			, POINT
+			, OPTIONS
+			, CREATE_DTTM
+			, UPDATE_DTTM
+		) VALUES (
+			#{userIdx}
+			, #{eventIdx}
+			, #{originEventDetailIdx}
+			, #{status}
+			, #{point}
+			, #{options}
+			, #{createDttm}
+			, #{updateDttm}
+		)
+	</insert>
+
+
+	<update id="refreshPointSummary" parameterType= "com.point.domain.PointSummaryDTO">
+		UPDATE POINT_SUMMARY 
+		SET NOW_POINT = (
+			SELECT SUM(POINT) 
+			FROM POINT_EVENT_DETAIL 
+			WHERE USER_IDX = #{userIdx}
+		)
+		WHERE USER_IDX = #{userIdx}
+	</update>
+	
+	
+	
+	<delete id="deleteUseHistPointEvent" parameterType= "com.point.domain.PointEventDTO">
+		DELETE FROM POINT_EVENT
+		WHERE IDX = #{idx}
+	</delete>
+
+
+	<delete id="deleteIseHistPointEventDetail" parameterType= "com.point.domain.PointEventDTO">
+		DELETE FROM POINT_EVENT_DETAIL
+		WHERE EVENT_IDX = #{idx}
+	</delete>
+	
+	
+	
+	<update id="syncOriginEventIdx" parameterType= "com.point.domain.PointEventDetailDTO">
+		UPDATE POINT_EVENT_DETAIL 
+		SET ORIGIN_EVENT_DETAIL_IDX = idx
+		WHERE STATUS ='적립'
+	</update>
+	
+
+
+	<select id= "targetNowPoint" parameterType="com.point.domain.PointSummaryDTO" resultType="long">
+			SELECT NOW_POINT
+			FROM POINT_SUMMARY
+			WHERE USER_IDX = #{userIdx}
+	</select>
+
+</mapper>
