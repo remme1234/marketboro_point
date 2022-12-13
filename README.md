@@ -6,7 +6,7 @@
 
 ---
 
-적립금 조회 및 사용 기능을 Spring-boot를 이용하여 구현했습니다.
+적립금 조회 및 사용 기능을 Spring-boot, H2(embeded), jsp를 이용하여 구현했습니다.
 
 <br/>
 <br/>
